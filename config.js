@@ -4,4 +4,4 @@
 //   Render service URL after deploying the backend (no trailing slash).
 window.API_BASE_URL = ['localhost', '127.0.0.1'].includes(window.location.hostname)
   ? 'http://localhost:4000'
-  : 'https://secure-notes-api.onrender.com';
+  : 'https://secure-notes-api-ivn0.onrender.com';
