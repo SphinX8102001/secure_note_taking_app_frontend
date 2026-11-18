@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Secure Notes</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 0 auto; padding: 16px; }
+    section { border: 1px solid #ccc; padding: 12px; margin: 12px 0; }
+    input, textarea, select { display: block; margin: 4px 0 8px; width: 100%; box-sizing: border-box; }
+    textarea { min-height: 60px; }
+    button { margin: 2px 4px 2px 0; }
+    .item { border-top: 1px solid #eee; padding: 6px 0; }
+    .muted { color: #666; font-size: 0.9em; }
+    .error { color: #b00020; }
+    .hidden { display: none; }
+    nav button.active { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Secure Notes</h1>
+  <p id="msg" class="error"></p>
+
+  <!-- Auth -->
+  <div id="auth-view">
+    <section>
+      <h2>Login</h2>
+      <form id="login-form">
+        <input name="email" type="email" placeholder="Email" required />
+        <input name="password" type="password" placeholder="Password" required />
+        <button>Login</button>
+      </form>
+    </section>
+    <section>
+      <h2>Register</h2>
+      <form id="register-form">
+        <input name="name" placeholder="Name" required />
+        <input name="email" type="email" placeholder="Email" required />
+        <input name="password" type="password" placeholder="Password (min 8 chars)" required minlength="8" />
+        <input name="interests" placeholder="Interests, comma separated (e.g. chess, reading)" />
+        <button>Register</button>
+      </form>
+    </section>
+  </div>
+
+  <!-- App -->
+  <div id="app-view" class="hidden">
+    <p>Signed in as <strong id="who"></strong> <button id="logout">Logout</button></p>
+    <nav>
+      <button data-tab="notes">My notes</button>
+      <button data-tab="posts">Posts</button>
+      <button data-tab="interests">Interest groups</button>
+      <button data-tab="profile">Profile</button>
+      <button data-tab="admin-users" class="admin-only">Admin: users</button>
+      <button data-tab="admin-notes" class="admin-only">Admin: all notes</button>
+    </nav>
+
+    <section data-panel="notes">
+      <h2>My notes</h2>
+      <form id="note-form">
+        <input type="hidden" name="id" />
+        <input name="title" placeholder="Title" required />
+        <textarea name="content" placeholder="Content"></textarea>
+        <button>Save note</button> <button type="button" id="note-cancel">Clear</button>
+      </form>
+      <div id="notes-list"></div>
+      <div class="pager" id="notes-pager"></div>
+    </section>
+
+    <section data-panel="posts">
+      <h2>Posts</h2>
+      <form id="post-form">
+        <input name="title" placeholder="Title" required />
+        <textarea name="body" placeholder="Write a public post"></textarea>
+        <button>Publish</button>
+      </form>
+      <p><button id="show-feed">All posts</button> <button id="show-mine">My posts ($lookup)</button></p>
+      <h3 id="posts-heading"></h3>
+      <div id="posts-list"></div>
+      <div class="pager" id="posts-pager"></div>
+    </section>
+
+    <section data-panel="interests">
+      <h2>Users grouped by interest</h2>
+      <form id="interest-filter">
+        <input name="interest" placeholder="Filter by one interest (optional)" />
+        <button>Apply</button>
+      </form>
+      <div id="interests-list"></div>
+      <div class="pager" id="interests-pager"></div>
+    </section>
+
+    <section data-panel="profile">
+      <h2>Profile</h2>
+      <form id="profile-form">
+        <label>Name <input name="name" required /></label>
+        <label>Interests (comma separated) <input name="interests" /></label>
+        <button>Save profile</button>
+      </form>
+    </section>
+
+    <section data-panel="admin-users">
+      <h2>Manage users</h2>
+      <form id="user-form">
+        <input type="hidden" name="id" />
+        <input name="name" placeholder="Name" />
+        <input name="email" type="email" placeholder="Email" />
+        <input name="password" type="password" placeholder="Password (leave blank to keep when editing)" />
+        <input name="interests" placeholder="Interests, comma separated" />
+        <select name="role"><option value="user">user</option><option value="admin">admin</option></select>
+        <button>Save user</button> <button type="button" id="user-cancel">Clear</button>
+      </form>
+      <div id="users-list"></div>
+      <div class="pager" id="users-pager"></div>
+    </section>
+
+    <section data-panel="admin-notes">
+      <h2>Everyone's notes</h2>
+      <div id="all-notes-list"></div>
+      <div class="pager" id="all-notes-pager"></div>
+    </section>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
